@@ -32,6 +32,8 @@ public class User implements UserDetails {
     private String fullname;
     private String profilePicture;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "donor", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Donation> donations;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
@@ -53,31 +55,4 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
