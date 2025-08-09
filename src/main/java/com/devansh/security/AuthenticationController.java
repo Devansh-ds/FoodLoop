@@ -29,7 +29,6 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request) throws UserAlreadyExistException {
-        request.setRole(Role.USER);
         return ResponseEntity.ok(authenticationService.register(request));
     }
 

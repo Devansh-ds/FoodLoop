@@ -42,7 +42,7 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/**")
                                 .permitAll()
 
-                                .requestMatchers("/admin/**").hasRole(Role.USER.name())
+                                .requestMatchers("/category/admin/**").hasRole(Role.ADMIN.name())
 
                                 .anyRequest()
                                 .authenticated()

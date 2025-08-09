@@ -5,6 +5,7 @@ import com.devansh.request.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.LoadingCache;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -23,6 +25,7 @@ import java.util.Map;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class AuthControllerTest {
 
     @Autowired
@@ -39,6 +42,11 @@ public class AuthControllerTest {
 
     @BeforeEach
     public void setUp() {
+        userRepository.deleteAll();
+    }
+
+    @AfterEach
+    public void tearDown() {
         userRepository.deleteAll();
     }
 
@@ -234,7 +242,7 @@ public class AuthControllerTest {
         Map<String, Object> cachedData =(Map<String, Object>) oneTimePasswordCache.get(request.getEmail());
         Integer otp = (Integer) cachedData.get("otp");
 
-        // send otp to verify and enable/disable 2f auth
+        // send otp to verify and enable 2f auth
         OtpVerificationRequest otpVerifyRequest = OtpVerificationRequest.builder()
                 .emailId(request.getEmail())
                 .context(OtpContext.ENABLE_TWO_FACT_AUTH)
@@ -265,7 +273,7 @@ public class AuthControllerTest {
         Map<String, Object> cachedDataAuth =(Map<String, Object>) oneTimePasswordCache.get(request.getEmail());
         Integer otp2 = (Integer) cachedDataAuth.get("otp");
 
-        // send otp to verify and enable/disable 2f auth
+        // send otp to verify and get authTokens
         OtpVerificationRequest otpVerifyRequestAuth = OtpVerificationRequest.builder()
                 .emailId(request.getEmail())
                 .context(OtpContext.LOGIN)

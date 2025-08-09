@@ -69,4 +69,26 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(CategoryException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryException(CategoryException e, WebRequest request) {
+        ErrorResponse response = ErrorResponse
+                .builder()
+                .errorMessage(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .endpoint(request.getDescription(false).replace("uri=", ""))
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DonationException.class)
+    public ResponseEntity<ErrorResponse> handleDonationException(DonationException e, WebRequest request) {
+        ErrorResponse response = ErrorResponse
+                .builder()
+                .errorMessage(e.getMessage())
+                .endpoint(request.getDescription(false).replace("uri=", ""))
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
 }

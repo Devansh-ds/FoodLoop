@@ -1,8 +1,13 @@
 package com.devansh.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "categories")
 public class Category {

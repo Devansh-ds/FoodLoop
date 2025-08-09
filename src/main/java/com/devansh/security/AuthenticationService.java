@@ -46,6 +46,8 @@ public class AuthenticationService {
             request.setRole(Role.USER);
         }
 
+        System.out.println("User role : " + request.getRole());
+
         var user = User.builder()
                 .fullname(request.getFullname())
                 .email(request.getEmail())
